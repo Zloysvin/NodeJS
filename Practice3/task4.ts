@@ -1,9 +1,10 @@
-const calc = (a, b, c) => a + b + c;
-const wrapper = (func) => {
-    const cache = {};
-    return function (...args) {
+const calc = (a: number, b: number, c: number): number => a + b + c;
+
+const wrapper = <T extends Function>(func: T) => {
+    const cache: { [key: string]: unknown[] } = {};
+    return (...args: unknown[]) => {
         const key = args.join(',');
-        if (cache[key]) {
+        if (key in cache) {
             console.log(`${cache[key]} from cache`);
             return cache[key];
         } else {
@@ -12,7 +13,7 @@ const wrapper = (func) => {
             console.log(`${result} calculated`);
             return result;
         }
-    }
+    };
 };
 
 const cachedCalc = wrapper(calc);
